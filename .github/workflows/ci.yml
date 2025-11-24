@@ -6,9 +6,6 @@ on:
     - cron: "0 * * * *" # every hour
 
 jobs:
-  # ---------------------------
-  # 1. GitHub Runner Execution
-  # ---------------------------
   run-tests:
     runs-on: ubuntu-latest
     name: Run Tests on GitHub Runner
@@ -59,18 +56,16 @@ jobs:
           name: allure-report
           path: target/allure-report/
 
+      - name: Create folder for Masterthought Report
+        run: mkdir -p target/cucumber-html-reports
+
       - name: Upload Masterthought Report
         if: always()
-        run: |
-          mkdir -p target/cucumber-html-reports
         uses: actions/upload-artifact@v4
         with:
           name: masterthought-report
           path: target/cucumber-html-reports/
 
-  # ---------------------------
-  # 2. Docker Execution
-  # ---------------------------
   docker-tests:
     runs-on: ubuntu-latest
     name: Run Tests in Docker
@@ -92,6 +87,9 @@ jobs:
         with:
           name: docker-allure-report
           path: target/allure-report/
+
+      - name: Create folder for Docker Masterthought Report
+        run: mkdir -p target/cucumber-html-reports
 
       - name: Upload Docker Masterthought Report
         if: always()
