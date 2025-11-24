@@ -1,0 +1,9 @@
+target/
+*.log
+*.class
+.settings/
+.project
+.DS_Store
+allure-report/
+allure-results/
+chromedriver.exe

@@ -1,0 +1,82 @@
+name: JPetStore Automation CI
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *" # every hour
+
+jobs:
+  # ---------------------------
+  # 1. GitHub Runner Execution
+  # ---------------------------
+  run-tests:
+    runs-on: ubuntu-latest
+    name: Run Tests on GitHub Runner
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
+
+      - name: Cache Maven
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2
+
+      - name: Run Tests (headless)
+        run: mvn clean test -Dheadless=true
+
+      - name: Generate Allure Report
+        run: |
+          mkdir -p target/allure-report
+          allure generate target/allure-results -o target/allure-report --clean
+
+      - name: Upload Allure Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: target/allure-report/
+
+      - name: Upload Masterthought Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: masterthought-report
+          path: target/cucumber-html-reports/
+
+  # ---------------------------
+  # 2. Docker Execution
+  # ---------------------------
+  docker-tests:
+    runs-on: ubuntu-latest
+    name: Run Tests in Docker
+    needs: run-tests # run after GitHub runner job
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker Image
+        run: docker build -t jpetstore-tests .
+
+      - name: Run tests in Docker container
+        run: docker run jpetstore-tests
+
+      - name: Upload Docker Allure Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-allure-report
+          path: target/allure-report/
+
+      - name: Upload Docker Masterthought Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-masterthought-report
+          path: target/cucumber-html-reports/
