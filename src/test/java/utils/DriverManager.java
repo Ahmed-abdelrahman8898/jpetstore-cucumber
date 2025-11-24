@@ -23,6 +23,8 @@ public class DriverManager {
             if (System.getProperty("headless") != null) {
                 options.addArguments("--headless=new");
                 options.addArguments("--disable-gpu");
+                options.addArguments("--no-sandbox");
+                options.addArguments("--disable-dev-shm-usage");
             }
 
             driver = new ChromeDriver(options);
