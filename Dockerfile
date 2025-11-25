@@ -11,20 +11,8 @@ RUN apt-get update && apt-get install -y wget gnupg2 unzip curl \
     && unzip chromedriver_linux64.zip -d /usr/local/bin \
     && rm chromedriver_linux64.zip
 
-# Install Allure CLI
-RUN wget https://github.com/allure-framework/allure2/releases/download/2.26.0/allure-2.26.0.zip -O /tmp/allure.zip \
-    && unzip /tmp/allure.zip -d /opt/ \
-    && ln -s /opt/allure-2.26.0/bin/allure /usr/bin/allure \
-    && rm /tmp/allure.zip
-
 WORKDIR /project
 COPY . /project
 
-# Run tests and generate Allure report
-CMD mvn clean test -Dheadless=true && \
-    mkdir -p target/allure-report && \
-    if [ -d target/allure-results ] && [ "$(ls -A target/allure-results)" ]; then \
-        allure generate target/allure-results -o target/allure-report --clean; \
-    else \
-        echo "No Allure results found, skipping report generation"; \
-    fi
+
+CMD ["mvn", "test", "-Dheadless=true"]
