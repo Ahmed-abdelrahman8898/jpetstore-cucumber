@@ -10,6 +10,13 @@ A fully automated end-to-end test framework for the JPetStore demo application, 
 - ✅ Docker Execution
 - ✅ Dynamic test data & flows
 
+  
+[![Java 17](https://img.shields.io/badge/Java-17-blue.svg)]()
+[![Maven](https://img.shields.io/badge/Maven-3.9+-blue.svg)]()
+[![Selenium](https://img.shields.io/badge/Selenium-4+-green.svg)]()
+[![Cucumber](https://img.shields.io/badge/Cucumber-7+-brightgreen.svg)]()
+[![Docker](https://img.shields.io/badge/Docker-supported-blue.svg)]()
+[![CI](https://github.com/Ahmed-abdelrahman8898/jpetstore-cucumber/actions/workflows/ci.yml/badge.svg)]()
 ---
 
 ## 1️⃣ Project Goals
@@ -122,22 +129,27 @@ Captures steps & attachments.
 - Maven installed
 - Chrome installed
 
-### ✅ Run tests
-From Eclipse using righ click on the test runner then run as junit test 
-or right click on pom.xml then run as mvn test or from cmd
+### ✅ Run Tests
+
+**Eclipse**  
+Right-click `TestRunner` → *Run as JUnit Test*
+
+Right-click `pom.xml` → *Run as mvn Test*
+
+**Maven**  
 ```bash
 mvn test -Dheadless=true -Dallure.results.directory=target/allure-results
+```
 
 ## 7️⃣ Running Tests in Docker
 
 ### ✅ Build Image
 ```bash
 docker build -t jpetstore-tests .
-
+```
 ## ✅ Run Tests
-
 ```bash
-docker run jpetstore-tests
+docker run jpetstore-tests .
 ```
 ## 8️⃣ CI/CD Pipeline (GitHub Actions)
 
