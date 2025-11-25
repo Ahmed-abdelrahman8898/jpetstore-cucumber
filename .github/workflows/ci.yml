@@ -32,7 +32,7 @@ jobs:
             ${{ runner.os }}-m2
 
       - name: Run Tests (headless)
-        run: mvn test -Dheadless=true
+        run: mvn test -Dheadless=true -Dallure.results.directory=target/allure-results
 
       # ✅ Install Allure CLI
       - name: Install Allure CLI
@@ -87,7 +87,7 @@ jobs:
         run: docker build -t jpetstore-tests .
 
       - name: Run Tests in Docker Container
-        run: docker run -v ${{ github.workspace }}/target:/project/target jpetstore-tests mvn test -Dheadless=true
+        run: docker run -v ${{ github.workspace }}/target:/project/target jpetstore-tests mvn test -Dheadless=true -Dallure.results.directory=target/allure-results
 
       # ✅ Upload Docker Masterthought HTML report
       - name: Upload Docker Masterthought Report
