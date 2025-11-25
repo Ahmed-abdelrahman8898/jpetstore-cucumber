@@ -1,42 +1,47 @@
-🐾 JPetStore Automation Framework
+# 🐾 JPetStore Automation Framework
 
 A fully automated end-to-end test framework for the JPetStore demo application, designed using:
 
-✅ BDD (Cucumber + Gherkin)
-✅ Selenium WebDriver
-✅ Java
-✅ Page Object Model (POM)
-✅ CI/CD with GitHub Actions
-✅ Docker Execution
-✅ Dynamic test data & flows
+- ✅ BDD (Cucumber + Gherkin)
+- ✅ Selenium WebDriver
+- ✅ Java
+- ✅ Page Object Model (POM)
+- ✅ CI/CD with GitHub Actions
+- ✅ Docker Execution
+- ✅ Dynamic test data & flows
 
-✅ 1️⃣ Project Goals
+---
 
-Automate realistic user journeys on JPetStore
+## 1️⃣ Project Goals
 
-Use modern testing best practices (BDD + POM)
+- **Automate realistic user journeys** on JPetStore.
+- **Use modern testing best practices** (BDD + POM).
+- **Generate professional HTML reports.**
+- **Support CI execution** on GitHub runners.
+- **Support isolated execution** in Docker.
+- **Ensure randomness & dynamic behavior** to reduce hard-coding.
 
-Generate professional HTML reports
+---
 
-Support CI execution on GitHub runners
+## 2️⃣ Tech Stack
 
-Support isolated execution in Docker
+| Component | Tool |
+| :--- | :--- |
+| **Language** | Java 17 |
+| **UI Automation** | Selenium WebDriver |
+| **BDD Framework** | Cucumber |
+| **Design Pattern** | Page Object Model (POM) |
+| **Build Tool** | Maven |
+| **Reporting** | Masterthought HTML + Allure |
+| **CI/CD** | GitHub Actions |
+| **Containerization** | Docker |
+| **Driver Manager** | WebDriverManager |
 
-Ensure randomness & dynamic behavior to reduce hard-coding
+---
 
-✅ 2️⃣ Tech Stack
-Component	Tool
-Language	Java 17
-UI Automation	Selenium WebDriver
-BDD Framework	Cucumber
-Design Pattern	Page Object Model
-Build Tool	Maven
-Reporting	Masterthought HTML + Allure
-CI/CD	GitHub Actions
-Containerization	Docker
-Driver Manager	WebDriverManager
+## 3️⃣ Architecture
 
-✅ 3️⃣ Architecture
+```text
 jpetstore-cucumber
 │
 ├── src
@@ -59,126 +64,101 @@ jpetstore-cucumber
 └── .github
     └── workflows
         └── ci.yml
+```
 
-✅ 4️⃣ Framework Highlights (IMPORTANT)
-⭐ BDD with Cucumber + Selenium
+# 4️⃣ Framework Highlights (IMPORTANT)
 
-Test logic is written in plain English Gherkin
+# ⭐ BDD with Cucumber + Selenium
+- Test logic is written in plain English Gherkin
+- Step definitions map behavior to Selenium actions
+- Easy to read, easy to maintain
 
-Step definitions map behavior to Selenium actions
+### ⭐ Page Object Model (POM)
+- Each page has its own class
+- Locators, The action is performed in stepdefinintions for purposes
+- Cleaner, reusable code
 
-Easy to read, easy to maintain
+### ⭐ Explicit Waits
+- All page interactions use explicit waits to avoid flaky timing issues
+- Ensures elements are ready before interacting and it is done in POM
 
-⭐ Page Object Model (POM)
+### ⭐ Sleep in Step Layer (On Purpose)
+- Some site actions require human-like pacing.
+- A short sleep simulates realistic behavior and prevents random failures.
+- Not best practice normally — but better than having random failures
 
-Each page has its own class
-
-Locators, The action is performed in stepdefinintions for purposes
-
-Cleaner, reusable code
-
-⭐ Explicit Waits
-
-All page interactions use explicit waits to avoid flaky timing issues
-
-Ensures elements are ready before interacting and it is done in POM
-
-⭐ Sleep in Step Layer (On Purpose)
-
-Some site actions require human-like pacing.
-A short sleep simulates realistic behavior and prevents random failures.
-
-Not best practice normally — but better than having random failures
-
-⭐ Random & Dynamic Behavior
-
+### ⭐ Random & Dynamic Behavior
 Every run:
+- Generates a new user
+- Randomly selects a category
+- Randomly selects a product & variant
+- ✅ No hardcoding
+- ✅ More realistic testing
+- ✅ Higher coverage
 
-Generates a new user
+---
 
-Randomly selects a category
+## 5️⃣ Reporting
 
-Randomly selects a product & variant
-
-✅ No hardcoding
-✅ More realistic testing
-✅ Higher coverage
-
-✅ 5️⃣ Reporting
-⭐ Masterthought HTML Report
-
+### ⭐ Masterthought HTML Report
 Chosen because it is clean, visual, and easy to share.
 
-How it's generated:
+**How it's generated:**
+- Cucumber produces `cucumber.json`
+- After tests, a Java utility builds: `target/cucumber-html-reports/`
 
-Cucumber produces cucumber.json
+### ⭐ Allure Report (Optional second report)
+Captures steps & attachments.
+**Stored in:**
+- `target/allure-results/`
+- `target/allure-report/`
 
-After tests, a Java utility builds:
+---
 
-target/cucumber-html-reports/
+## 6️⃣ Running Tests Locally
 
-⭐ Allure Report (Optional second report)
+### ✅ Prerequisites
+- Java 17+
+- Maven installed
+- Chrome installed
 
-Captures steps & attachments
+### ✅ Run tests
+```bash
+mvn test -Dheadless=true -Dallure.results.directory=target/allure-results
 
-Stored in:
+## 7️⃣ Running Tests in Docker
 
-target/allure-results/
-target/allure-report/
-
-✅ 6️⃣ Running Tests Locally
-✅ Prerequisites
-
-Java 17+
-
-Maven installed
-
-Chrome installed
-
-✅ Run tests
-mvn test -Dheadless=true
-
-✅ View Masterthought report
-
-Open:
-
-target/cucumber-html-reports/overview-features.html
-
-✅ 7️⃣ Running Tests in Docker
-✅ Build image
+### ✅ Build Image
+```bash
 docker build -t jpetstore-tests .
 
-✅ Run tests
+## ✅ Run Tests
+
+```bash
 docker run jpetstore-tests
+```
+## 8️⃣ CI/CD Pipeline (GitHub Actions)
 
+The pipeline contains **2 jobs**:
 
-Reports will be in /project/target.
+| Job             | Description                            |
+|-----------------|----------------------------------------|
+| ✅ GitHub Runner | Executes tests on hosted VM            |
+| ✅ Docker Runner | Executes tests inside Docker container |
 
-✅ 8️⃣ CI/CD Pipeline (GitHub Actions)
+### Triggers
+- ✅ Runs manually  
+- ✅ Runs on schedule (every 24 hour)
 
-The pipeline contains 2 jobs:
+### Artifacts Uploaded
+- Masterthought report  
+- Allure report  
+- Docker Masterthought report  
+- Docker Allure report
+## ✅ 9️⃣ Key Benefits
 
-Job	Description
-✅ GitHub Runner	Executes tests on hosted VM
-✅ Docker Runner	Executes tests inside Docker container
-
-✅ Runs manually
-✅ Runs on schedule (every 1 hour)
-
-Artifacts uploaded:
-
-Masterthought report
-
-Allure report
-
-Docker Masterthought report
-
-Docker Allure report
-
-✅ 9️⃣ Key Benefits
-
-✅ Clean architecture
-✅ Easy to extend
-✅ Human-like flows reduce flakiness
-✅ True randomness improves coverage
-✅ CI + Docker makes it production-ready
+- ✅ Clean architecture  
+- ✅ Easy to extend  
+- ✅ Human-like flows reduce flakiness  
+- ✅ True randomness improves coverage  
+- ✅ CI + Docker makes it production-ready
