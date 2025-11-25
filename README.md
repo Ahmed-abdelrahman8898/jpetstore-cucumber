@@ -123,6 +123,8 @@ Captures steps & attachments.
 - Chrome installed
 
 ### ✅ Run tests
+From Eclipse using righ click on the test runner then run as junit test 
+or right click on pom.xml then run as mvn test or from cmd
 ```bash
 mvn test -Dheadless=true -Dallure.results.directory=target/allure-results
 
