@@ -148,7 +148,7 @@ The pipeline contains **2 jobs**:
 
 ### Triggers
 - ✅ Runs manually  
-- ✅ Runs on schedule (every 24 hour)
+- ✅ Runs on schedule 
 
 ### Artifacts Uploaded
 - Masterthought report  
