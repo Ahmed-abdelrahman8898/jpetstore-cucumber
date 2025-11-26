@@ -3,7 +3,7 @@ name: JPetStore Automation CI
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 * * * *" # every hour
+    - cron: "0 3 * * *" # every day at 3 am
 
 jobs:
   # ---------------------------
